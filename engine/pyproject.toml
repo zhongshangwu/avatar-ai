@@ -1,0 +1,133 @@
+[build-system]
+# 构建依赖
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "cmake>=3.26",
+    "ninja",
+    "packaging",
+    "setuptools-scm>=8.0",
+    "jinja2",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+# 版本文件配置
+version_file = "avatarai/_version.py"
+
+[project]
+name = "avatarai"
+version = "0.1.0"
+description = "Anything to avatar"
+readme = "README.md"
+authors = [
+    {name = "zhongshangwu", email = "zhongshangwu07@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20.0",
+    "pillow>=8.0.0",
+    "nostr-sdk>=0.40.0",
+    "tomli>=2.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/zhongshangwu/avatarai"
+"Bug Tracker" = "https://github.com/zhongshangwu/avatarai/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "black>=22.1.0",
+    "isort>=5.10.1",
+    "mypy>=0.910",
+    "flake8>=4.0.1",
+    "ruff",
+    "codespell",
+    "pymarkdown",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+use_parentheses = true
+skip_gitignore = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+check_untyped_defs = true
+follow_imports = "silent"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+markers = [
+    "slow: 标记耗时较长的测试",
+    "gpu: 需要GPU的测试",
+    "integration: 集成测试",
+    "optional: 可选测试，默认跳过，使用--optional运行",
+]
+
+[tool.yapfignore]
+ignore_patterns = [
+    "build/**",
+]
+
+[tool.ruff]
+line-length = 88
+exclude = [
+    "build/**",
+    "dist/**",
+]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+ignore = [
+    # star imports
+    "F405", "F403",
+    # lambda expression assignment
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"avatarai/_version.py" = ["ALL"]
+
+[tool.codespell]
+ignore-words-list = "dout, te"
+skip = "./build,./dist,./tests/data"
+
+[tool.pymarkdown]
+plugins.md004.style = "sublist"
+plugins.md013.enabled = false
+plugins.md041.enabled = false
+plugins.md033.enabled = false
+plugins.md024.allow_different_nesting = true
